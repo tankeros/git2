@@ -1,0 +1,3 @@
+﻿#Displays service accounts with expiration dates Name -like "svc_*" sort by expiration date
+ Get-ADUser -filter {Name -like "svc_*" -and Enabled -eq $True -and PasswordNeverExpires -eq $False} –Properties "DisplayName", "msDS-UserPasswordExpiryTimeComputed" |
+ Select-Object -Property "Displayname",@{Name="ExpiryDate";Expression={[datetime]::FromFileTime($_."msDS-UserPasswordExpiryTimeComputed")}} | Sort ExpiryDate
