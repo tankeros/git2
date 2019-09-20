@@ -1,1 +1,18 @@
 - Update the Default-First-Site-Name to SiteName: example (HQ-Office)
+	Active Directory Sites and Services, rename
+
+- Configure Domain Password and Lockout Policy (GPO)
+	The best practice is edit the Default Domain Policy GPO to define the password, account lockout, 
+	and kerberos policies for the domain, and nothing else.
+	Addtionally, do not define password, account lockout, or kerberos policies for the domain in any other GPO.
+- For Additional password policy set fine-grained password policy (password setting object) PSO
+	PSO are applied to users or groups.
+	Create a new Password Settings from AD Administrator Center (ADAC) System/Password Settings Container
+	PSO with the highest precedence (closest to 1) take effect
+	If one of more PSOs are linked directly to the user, PSOs linked to group are ignored.
+	msDS-ResultantPSO
+	
+	
+	
+
+	
