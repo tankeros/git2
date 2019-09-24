@@ -41,7 +41,8 @@ PSO with the highest precedence (closest to 1) take effect
 If one of more PSOs are linked directly to the user, PSOs linked to group are ignored.
 msDS-ResultantPSO : displays PSO that will affect a user
 To view msDS-ResultantPSO : On the Attribute Editor tab Filter and ensure that Constructed attribute is selected
-	
+
+- Service Account name (sAMAccountName) less than 15 characters. 	
 	
 	
 
