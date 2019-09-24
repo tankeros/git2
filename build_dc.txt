@@ -1,16 +1,46 @@
-- Update the Default-First-Site-Name to SiteName: example (HQ-Office)
-	Active Directory Sites and Services, rename
-
-- Configure Domain Password and Lockout Policy (GPO)
-	The best practice is edit the Default Domain Policy GPO to define the password, account lockout, 
-	and kerberos policies for the domain, and nothing else.
-	Addtionally, do not define password, account lockout, or kerberos policies for the domain in any other GPO.
-- For Additional password policy set fine-grained password policy (password setting object) PSO
-	PSO are applied to users or groups.
-	Create a new Password Settings from AD Administrator Center (ADAC) System/Password Settings Container
-	PSO with the highest precedence (closest to 1) take effect
-	If one of more PSOs are linked directly to the user, PSOs linked to group are ignored.
-	msDS-ResultantPSO
+	- Create a baseline server
+	- Turn off IE Enhanced Security Configuration
+	- Save local Administrator password in Vault or password manager
+	- Change the Computer Name (use lowercase), follow the naming convention, restart later
+	- Configure and set IP address to static, add least two or three DNS server IP addresses
+	- Set Time Zone, if connect to the internet, download and install security updates
+	- Restart the server
+	- Add role: Active Directory Domain Services and 
+	- Promote to domain controller
+		- For adding a DC to an existing domain; enter the domain name
+		- Save Directory Services Restore Mode password in Vault or password manager
+	- Optional: to register Active Directory Schema to mmc type regsvr32.exe schmmgmt.dll from CMD
+	- Create a central store of GPO
+		- Navigate to C:\Windows\SYSVOL\domain\Policies and create a new folder PolicyDefinitions
+		- Navigate to C:\Windows\PolicyDefinitions and copy all contents and paste to new PolicyDefinitions folder
+	- Configure the time service to sync with NTP server and serve as NTP server
+		- net stop w32time
+		- w32tm /config /syncfromflags:manual /manualpeerlist:"129.6.15.28, 129.6.15.29, 129.6.15.30, 129.6.15.27" (source from NIST)
+		- w32tm /config /reliable:yes (serve as NTP server)
+		- net start w32time
+		- To view NTP Configuration: w32tm /query /configuration
+	- Update the Default-First-Site-Name to SiteName: example (HQ-Office)
+Active Directory Sites and Services, rename
+	- Configure Domain Password and Lockout Policy (GPO)
+The best practice is edit the Default Domain Policy GPO to define the password, account lockout, and kerberos policies for the domain, and nothing else.
+Additionally, do not define password, account lockout, or kerberos policies for the domain in any other GPO.
+		- Use DoD STIG GPO:
+			- DoD Windows Server 2012 R2 Domain Controller STIG Computer v2r17 (WMI Filter)
+			- DoD Windows Server 2012 R2 Domain Controller STIG User v2r17 (WMI Filter)
+			- DoD Windows Server 2012 R2 Member Server STIG Computer v2r16 (WMI Filter)
+			- DoD Windows Server 2012 R2 Member Server STIG User v2r16 (WMI Filter)
+			- DoD Internet Explorer 11 STIG Computer v1r17 (WMI Filter)
+			- DoD Internet Explorer 11 STIG User v1r17 (WMI Filter)
+			- DoD Windows FireWall STIG v1r7
+			
+		
+	- For Additional password policy set fine-grained password policy (password setting object) PSO
+PSO are applied to users or groups.
+Create a new Password Settings from AD Administrator Center (ADAC) System/Password Settings Container
+PSO with the highest precedence (closest to 1) take effect
+If one of more PSOs are linked directly to the user, PSOs linked to group are ignored.
+msDS-ResultantPSO : displays PSO that will affect a user
+To view msDS-ResultantPSO : On the Attribute Editor tab Filter and ensure that Constructed attribute is selected
 	
 	
 	
